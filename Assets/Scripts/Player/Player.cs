@@ -1,11 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private Rigidbody2D _playerRig;
-    private void Awake()
-    {
-        gameObject.AddComponent<Rigidbody2D>();
-        _playerRig = GetComponent<Rigidbody2D>();
-    }
+    // todo#1: Every player has to be able to progress with every other character they play (List of characters each one with your progress)
+    // todo#2: Implement level progress
+    public List<GameObject> Characters;
+    
 }
