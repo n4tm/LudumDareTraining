@@ -13,8 +13,8 @@ namespace Character
         {
             idle,
             run,
-            /*jump,
-             *attack1,
+            //jump
+            /*attack1,
              *attack2,
              *attack3,
              *attack4,
@@ -37,11 +37,12 @@ namespace Character
         public void ManageAnimation(Vector2 characterVelocity)
         {
             if (characterVelocity == Vector2.zero) PlayAnimation(AnimationType.idle);
-            else
+            //else if (characterVelocity.y != 0f) PlayAnimation(AnimationType.jump);
+            
+            else if (characterVelocity.x != 0f)
             {
-                if (characterVelocity.x < 0.1f) CharFacing = Facing.left;
-                else if (characterVelocity.x > 0.1f) CharFacing = Facing.right;
-                
+                if (characterVelocity.x < 0.01f) CharFacing = Facing.left;
+                else if (characterVelocity.x > 0.01f) CharFacing = Facing.right;
                 PlayAnimation(AnimationType.run);
             }
         }
