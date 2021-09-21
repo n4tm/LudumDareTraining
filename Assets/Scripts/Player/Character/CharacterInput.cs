@@ -59,6 +59,7 @@ namespace Character
         {
             _charAnim.CharFacing = _charAnim.CharFacing == CharacterAnimation.Facing.right ? CharacterAnimation.Facing.left : CharacterAnimation.Facing.right;
             _charTransform.rotation = Quaternion.Euler(0, _charAnim.CharFacing == CharacterAnimation.Facing.right ? 0 : 180, 0);
+            Transform.FindObjectOfType<Teleport>().flipFace();
         }
 
         public void CheckJump(Transform tr)
