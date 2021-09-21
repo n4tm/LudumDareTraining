@@ -9,13 +9,14 @@ namespace Character
             left,
             right
         }
+
         private enum AnimationType
         {
             idle,
             run,
-            //jump
-            /*attack1,
-             *attack2,
+            jump,
+            attack1,
+            /*attack2,
              *attack3,
              *attack4,
              *dodge,
@@ -34,20 +35,34 @@ namespace Character
             _animator = animator;
         }
         
-        public void ManageAnimation(Vector2 characterVelocity)
+        // Animation priority: ATTACK > JUMP > RUN > IDLE
+        public void ManageAnimation(CharacterInput charInput, float horizontalVelocity)
         {
-            if (characterVelocity == Vector2.zero) PlayAnimation(AnimationType.idle);
-            //else if (characterVelocity.y != 0f) PlayAnimation(AnimationType.jump);
-            
-            else if (characterVelocity.x != 0f)
+            if (charInput.Attack1Pressed) PlayAnimation(AnimationType.attack1);
+            if (!_animator.GetCurrentAnimatorStateInfo(0).IsName(_characterName+'_'+AnimationType.attack1) 
+                || _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
             {
-                if (characterVelocity.x < 0.01f) CharFacing = Facing.left;
-                else if (characterVelocity.x > 0.01f) CharFacing = Facing.right;
-                PlayAnimation(AnimationType.run);
+                if (charInput.JumpPressed) PlayAnimation(AnimationType.jump);
+                else if (charInput.OnGround)
+                {
+                    if (charInput.Direction != Vector2.zero)
+                    {
+                        if (charInput.Direction == Vector2.left) CharFacing = Facing.left;
+                        else if (charInput.Direction == Vector2.right) CharFacing = Facing.right;
+                        PlayAnimation(AnimationType.run);
+                    }
+                    else if (_currentAnimation != AnimationType.idle.ToString() 
+                             || _currentAnimation == AnimationType.run.ToString() 
+                             && Mathf.Abs(horizontalVelocity) <= 0.1f)
+                    {
+                        PlayAnimation(AnimationType.idle);
+                    }
+                }
             }
+            
         }
         private void PlayAnimation(AnimationType animationName)
-        {
+         {
             if (_currentAnimation == animationName.ToString()) return;
             _currentAnimation = animationName.ToString();
             _animator.Play(_characterName+'_'+_currentAnimation);

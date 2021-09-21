@@ -120,7 +120,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 0
@@ -166,3 +166,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpSpeed: 14.5
   moveSpeed: 16
+  attackSpeed: 6
+  baseDamage: 20
