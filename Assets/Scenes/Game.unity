@@ -3190,10 +3190,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MeowKnight
       objectReference: {fileID: 0}
-    - target: {fileID: 5238182565548894731, guid: 13ba42d5eb151fb478d3341085fa3a86, type: 3}
-      propertyPath: m_Mass
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 5238182565548894838, guid: 13ba42d5eb151fb478d3341085fa3a86, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -3237,10 +3233,6 @@ PrefabInstance:
     - target: {fileID: 5238182565548894838, guid: 13ba42d5eb151fb478d3341085fa3a86, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5238182565548894839, guid: 13ba42d5eb151fb478d3341085fa3a86, type: 3}
-      propertyPath: moveSpeed
-      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13ba42d5eb151fb478d3341085fa3a86, type: 3}

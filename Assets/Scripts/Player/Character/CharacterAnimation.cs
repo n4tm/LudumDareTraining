@@ -28,32 +28,39 @@ namespace Character
         private string _currentAnimation;
         private readonly Animator _animator;
         private readonly string _characterName;
-    
-        public CharacterAnimation(string name, Animator animator)
+        private readonly CharacterMovement _charMove;
+        private readonly CharacterJump _charJump;
+        private readonly CharacterAttack _charAttack;
+        
+
+        public CharacterAnimation(string name, Animator animator, CharacterMovement charMove, CharacterJump charJump, CharacterAttack charAttack)
         {
             _characterName = name;
             _animator = animator;
+            _charMove = charMove;
+            _charJump = charJump;
+            _charAttack = charAttack;
         }
         
         // Animation priority: ATTACK > JUMP > RUN > IDLE
-        public void ManageAnimation(CharacterInput charInput, float horizontalVelocity)
+        public void ManageAnimation(float horizontalVelocity)
         {
-            if (charInput.Attack1Pressed) PlayAnimation(AnimationType.attack1);
+            if (_charAttack.Attack1Pressed) PlayAnimation(AnimationType.attack1);
             if (!_animator.GetCurrentAnimatorStateInfo(0).IsName(_characterName+'_'+AnimationType.attack1) 
                 || _animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
             {
-                if (charInput.JumpPressed) PlayAnimation(AnimationType.jump);
-                else if (charInput.OnGround)
+                if (_charJump.JumpPressed) PlayAnimation(AnimationType.jump);
+                else if (_charJump.OnGround)
                 {
-                    if (charInput.Direction != Vector2.zero)
+                    if (_charMove.Direction != Vector2.zero)
                     {
-                        if (charInput.Direction == Vector2.left) CharFacing = Facing.left;
-                        else if (charInput.Direction == Vector2.right) CharFacing = Facing.right;
+                        if (_charMove.Direction == Vector2.left) CharFacing = Facing.left;
+                        else if (_charMove.Direction == Vector2.right) CharFacing = Facing.right;
                         PlayAnimation(AnimationType.run);
                     }
                     else if (_currentAnimation != AnimationType.idle.ToString() 
                              || _currentAnimation == AnimationType.run.ToString() 
-                             && Mathf.Abs(horizontalVelocity) <= 0.1f)
+                             && Mathf.Abs(horizontalVelocity) <= 0.01f)
                     {
                         PlayAnimation(AnimationType.idle);
                     }
