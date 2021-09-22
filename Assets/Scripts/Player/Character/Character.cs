@@ -34,6 +34,7 @@ namespace Character
         private void Update()
         {
             _charInput.CheckJump(transform);
+            _charInput.CheckTelep();
         }
 
         private void FixedUpdate()

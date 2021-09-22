@@ -6,6 +6,8 @@ namespace Character
     {
         public Vector2 Direction { get; set; }
         private bool _jumpPressed;
+        private bool _telepPressed;
+        private float telepCountDown = 0;
         private bool onGround;
         private readonly LayerMask _groundLayer;
         private readonly InputMap _inputMap;
@@ -17,6 +19,7 @@ namespace Character
         private readonly float _maxSpeed;
         private const float LINEAR_DRAG = 5f;
 
+        
         public CharacterInput(float moveSpeed, float jumpSpeed, Transform transform, CharacterAnimation charAnim, float maxSpeed=8f)
         {
             _jumpSpeed = jumpSpeed;
@@ -34,6 +37,8 @@ namespace Character
 
             _inputMap.Player.Jump.started += ctx => _jumpPressed = true;
             _inputMap.Player.Jump.canceled += ctx => _jumpPressed = false;
+            _inputMap.Player.Telep.started += ctx => _telepPressed = true;
+            _inputMap.Player.Telep.canceled += ctx => _telepPressed = false;
         }
     
         public void EnableInputMap() => _inputMap.Enable();
@@ -59,7 +64,7 @@ namespace Character
         {
             _charAnim.CharFacing = _charAnim.CharFacing == CharacterAnimation.Facing.right ? CharacterAnimation.Facing.left : CharacterAnimation.Facing.right;
             _charTransform.rotation = Quaternion.Euler(0, _charAnim.CharFacing == CharacterAnimation.Facing.right ? 0 : 180, 0);
-            Transform.FindObjectOfType<Teleport>().flipFace();
+            
         }
 
         public void CheckJump(Transform tr)
@@ -75,6 +80,24 @@ namespace Character
         {
             _charRig.velocity = new Vector2(_charRig.velocity.x, 0);
             _charRig.AddForce(Vector2.up * _jumpSpeed, ForceMode2D.Impulse);
+        }
+        
+        
+        public void CheckTelep()
+        {
+            bool countDown = Time.deltaTime > telepCountDown + 8;
+            if (_telepPressed )
+            {
+                Telep();
+            }
+        }
+        private void Telep()
+        {
+            Debug.Log("Teleportou");
+            
+            _charTransform.transform.GetChild(0).GetComponent<Rigidbody2D>().velocity = Vector2.right * 70;
+            _charTransform.transform.GetChild(0).GetComponent<Rigidbody2D>().simulated = true;
+            _charTransform.transform.GetChild(0).GetComponent<TeleportMarker>().buttonPressed();
         }
     }
 }

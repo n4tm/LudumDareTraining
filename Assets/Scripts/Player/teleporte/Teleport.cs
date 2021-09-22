@@ -10,6 +10,7 @@ public class Teleport : MonoBehaviour
     private Transform posicaoInicial;
     float timer = 0;
     private CapsuleCollider2D colisao;
+    private bool _isColl;
 
     private bool facingFront = true; 
     // Start is called before the first frame update
@@ -26,41 +27,40 @@ public class Teleport : MonoBehaviour
     void Update()
     {
         timer += Time.deltaTime;
-        if (timer >= 1)
+        if (timer >= 2)
         {
-            resetTeleport();
-            print("resetou");
+
+      
             timer = 0;
         }
+
+       
     }
+
+
+        
 
     private void OnTriggerStay2D(Collider2D other)
     {
+        if(other.CompareTag("ground")){
         nextStep.GetComponent<SpriteRenderer>().color = Color.red;
         nextStep.transform.position -= Vector3.left;
+        _isColl = true;
+        }
+        
     }
     private void OnTriggerExit2D(Collider2D other)
     {
-        nextStep.GetComponent<SpriteRenderer>().color = Color.magenta;
-        nextStep.transform.position += Vector3.left * 0.7f;
-    }
-
-    public void resetTeleport()
-    {
-        if (facingFront)
+        if (other.CompareTag("ground"))
         {
-            nextStep.transform.position = transform.position + new Vector3(7, 0, 0);
-        }
-        else
-        {
-            nextStep.transform.position = transform.position - new Vector3(7, 0, 0);
+            nextStep.GetComponent<SpriteRenderer>().color = Color.magenta;
+            _isColl = false;
+            nextStep.transform.position += Vector3.left * 0.7f;   
         }
     }
 
-    public void flipFace()
-    {
-        facingFront = !facingFront;
-    }
+ 
+
     
 
 }
