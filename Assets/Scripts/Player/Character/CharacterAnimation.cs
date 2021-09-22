@@ -69,7 +69,7 @@ namespace Character
             
         }
         private void PlayAnimation(AnimationType animationName)
-         {
+        {
             if (_currentAnimation == animationName.ToString()) return;
             _currentAnimation = animationName.ToString();
             _animator.Play(_characterName+'_'+_currentAnimation);

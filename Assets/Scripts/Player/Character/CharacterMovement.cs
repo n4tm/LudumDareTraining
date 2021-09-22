@@ -33,7 +33,7 @@ namespace Character
             charAnim.CharFacing = charAnim.CharFacing == CharacterAnimation.Facing.right ? CharacterAnimation.Facing.left : CharacterAnimation.Facing.right;
             _charRig.transform.rotation = Quaternion.Euler(0, charAnim.CharFacing == CharacterAnimation.Facing.right ? 0 : 180, 0);
         }
-        public void ManagePhysics(bool onGround)
+        public void ManagePhysics(bool onGround, float gravity, float fallMultiplier, bool jumpPressed)
         {
             bool changingDirections = Direction.x > 0 && _charRig.velocity.x < 0 || Direction.x < 0 && _charRig.velocity.x > 0;
             if (onGround)
@@ -43,7 +43,13 @@ namespace Character
             }
             else
             {
-                _charRig.gravityScale = 2f;
+                _charRig.gravityScale = gravity;
+                _charRig.drag = LINEAR_DRAG * 0.15f;
+                if (_charRig.velocity.y < 0) _charRig.gravityScale = gravity * fallMultiplier;
+                else if (_charRig.velocity.y > 0 && !jumpPressed)
+                {
+                    _charRig.gravityScale = gravity * (fallMultiplier / 2);
+                }
             } 
         }
     }

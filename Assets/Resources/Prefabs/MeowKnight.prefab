@@ -120,7 +120,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 2
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 0
@@ -164,7 +164,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a77c7e90b7904fb7bc7b7a039ec85705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpSpeed: 14.5
+  jumpSpeed: 12
+  jumpDelay: 0.25
+  leftColliderOffset: {x: 0.125, y: 0, z: 0}
+  rightColliderOffset: {x: 0.1875, y: 0, z: 0}
   moveSpeed: 16
+  maxSpeed: 8
   attackSpeed: 6
   baseDamage: 20
+  gravity: 1
+  fallMultiplier: 5
